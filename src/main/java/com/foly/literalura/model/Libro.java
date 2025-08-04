@@ -61,6 +61,14 @@ public class Libro {
         this.descargas = descargas;
     }
 
-
-
+    @Override
+    public String toString() {
+        return  "----- LIBRO -----" + "\n" +
+                "Titulo: " + titulo + "\n" +
+                "Autor: " + autor + "\n" +
+                "Idioma: " + idiomas + "\n" +
+                "Descargas: " + descargas + "\n" +
+                "-----------------" + "\n" +
+                "\n";
+    }
 }

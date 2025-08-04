@@ -1,8 +1,7 @@
 package com.foly.literalura.principal;
 
-import com.foly.literalura.model.Datos;
-import com.foly.literalura.model.DatosLibros;
-import com.foly.literalura.model.Libro;
+import com.foly.literalura.model.*;
+import com.foly.literalura.repository.AutorRepository;
 import com.foly.literalura.repository.LibroRepository;
 import com.foly.literalura.service.ConsumoAPI;
 import com.foly.literalura.service.ConvierteDatos;
@@ -19,9 +18,11 @@ public class Principal {
     private ConsumoAPI consumoApi = new ConsumoAPI();
     private ConvierteDatos conversor = new ConvierteDatos();
     private LibroRepository repositorio;
+    private AutorRepository repositorioAutor;
 
-    public Principal(LibroRepository repository) {
+    public Principal(LibroRepository repository, AutorRepository repositoryAutor) {
         this.repositorio = repository;
+        this.repositorioAutor = repositoryAutor;
     }
 
     public void muestraMenu(){
@@ -47,8 +48,10 @@ public class Principal {
                     buscarLibro();
                     break;
                 case 2:
+                    listarLibrosRegistrados();
                     break;
                 case 3:
+                    listarAutoresRegistrados();
                     break;
                 case 4:
                     break;
@@ -79,6 +82,15 @@ public class Principal {
             Libro libro = new Libro(libroBuscado.get());
             repositorio.save(libro);
 
+            Optional<DatosAutor> datosAutor = libroBuscado.get().autor().stream()
+                    .findFirst();
+            if (datosAutor.isPresent()){
+                Autor autor = new Autor(datosAutor.get());
+                repositorioAutor.save(autor);
+            }
+
+
+
         } else {
             System.out.println("Libro no encontrado!");
             System.out.println(" ");
@@ -86,7 +98,17 @@ public class Principal {
 
     }
 
-    private void guardarEnBD(){
+    private void listarLibrosRegistrados(){
+
+        List<Libro> libros = repositorio.findAll();
+        System.out.println(libros);
+
+    }
+
+    private void listarAutoresRegistrados(){
+
+        List<Autor> autores = repositorioAutor.findAll();
+        System.out.println(autores);
 
     }
 
