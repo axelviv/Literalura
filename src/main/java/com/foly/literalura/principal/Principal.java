@@ -54,8 +54,10 @@ public class Principal {
                     listarAutoresRegistrados();
                     break;
                 case 4:
+                    listarAutoresVivos();
                     break;
                 case 5:
+                    listarPorIdioma();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -110,6 +112,33 @@ public class Principal {
         List<Autor> autores = repositorioAutor.findAll();
         System.out.println(autores);
 
+    }
+
+    private void listarAutoresVivos(){
+        System.out.println("Ingresa el año que quieres buscar:");
+        var anio = teclado.nextInt();
+        teclado.nextLine();
+
+        List<Autor> autoresEncontrados = repositorioAutor.autoresVivos(anio);
+
+        if (autoresEncontrados.isEmpty()){
+            System.out.println("No se encontraron autores vivos en ese año!!");
+        }else {
+            autoresEncontrados.forEach(a -> System.out.println(a));
+        }
+    }
+
+    private void listarPorIdioma(){
+        System.out.println("Ingresa el idioma de los libros que quieres buscar:");
+        var idioma = teclado.nextLine();
+
+        List<Libro> librosEncontrados = repositorio.idiomaBuscado(idioma);
+
+        if (librosEncontrados.isEmpty()){
+            System.out.println("No se encontraron libros en ese idioma!!");
+        }else {
+            librosEncontrados.forEach(l -> System.out.println(l));
+        }
     }
 
 
